@@ -140,7 +140,14 @@ def student_search_form(request):
                 # Privacy filter for restricting view of those users who do not want to be displayed to anyone outside their own college
                 # Q( ~Q(prof_user__college = request_user_profile_college), prof_user__preference__restrict_other_colleges = True )
 
-                privacy_filter_args = ( Q( prof_user__college = request_user_profile_college, prof_user__preference__restrict_same_college = True ) | Q( prof_user__college = request_user_profile_college, prof_major = request_user_profile_major, prof_user__preference__restrict_major = True  ) | Q( ~Q(prof_user__college = request_user_profile_college), prof_user__preference__restrict_other_colleges = True ), )
+                privacy_filter_args = ( Q( prof_user__college = request_user_profile_college, 
+                                          prof_user__preference__restrict_same_college = True )
+                                      | Q( prof_user__college = request_user_profile_college, 
+                                          prof_major = request_user_profile_major, 
+                                          prof_user__preference__restrict_major = True  )
+                                      | Q( ~Q(prof_user__college = request_user_profile_college), 
+                                           prof_user__preference__restrict_other_colleges = True ), 
+                                      )
 
                 # Additional criterion for only considering valid profiles using *kwargs list
                 privacy_filter_kwargs = {}
